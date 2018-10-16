@@ -115,6 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ListCycler.h" />
+    <ClInclude Include="ScLogger.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ListCycler.cpp" />
+    <ClCompile Include="ScLogger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
