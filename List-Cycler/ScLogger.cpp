@@ -1,9 +1,12 @@
 #include "ScLogger.h"
 #include <ctime>
+#include <chrono>
+
+using namespace std::chrono;
 
 ScLogger::ScLogger()
 {
-	log.open("ScListCyclerLog", fstream::in | fstream::out | fstream::app);
+	log.open("ScListCycler.log", fstream::in | fstream::out | fstream::app);
 }
 
 
@@ -13,6 +16,72 @@ ScLogger::~ScLogger()
 }
 
 void ScLogger::PrintToConsole(string in, bool debug, bool toLog)
+{
+	string st;
+
+	st = BuildTimestamp(debug);
+
+	st.append(in);
+
+	st.append("\n");
+	
+	cout << st;
+
+	if (toLog)
+	{
+		ShortPrintToLog(st);
+	}
+}
+
+void ScLogger::PrintToLog(string in, bool debug, bool toConsole)
+{
+	string st;
+
+	st = BuildTimestamp(debug);
+
+	st.append(in);
+	
+	st.append("\n");
+	
+	log << st;
+
+	if (toConsole)
+	{
+		ShortPrintToConsole(st);
+	}
+}
+
+void ScLogger::execFail(string in, int code)
+{
+	string st = BuildTimestamp(false);
+
+	st.append("Error code: ");
+	st.append(to_string(code));
+	st.append(" Error: (");
+	st.append(in);
+	st.append(")");
+
+	ShortPrintToConsole(st);
+	ShortPrintToLog(st);
+
+	ShortPrintToConsole("\nPress ENTER to end.");
+
+	cin.get();
+
+	exit(code);
+}
+
+void ScLogger::ShortPrintToConsole(string in)
+{
+	cout << in;
+}
+
+void ScLogger::ShortPrintToLog(string in)
+{
+	log << in;
+}
+
+string ScLogger::BuildTimestamp(bool debug)
 {
 	time_t now = time(NULL);
 	struct tm* now_tm = new tm;
@@ -37,38 +106,28 @@ void ScLogger::PrintToConsole(string in, bool debug, bool toLog)
 		sec.append("0");
 	sec.append(to_string(now_tm->tm_sec));
 	st.append(sec);
+
+	string msec;
+	milliseconds ms = duration_cast<milliseconds> (
+		system_clock::now().time_since_epoch()
+	);
+	ms %= 1000;
+	if (ms.count() < 10)
+		msec.append("00");
+	else if (ms.count() < 100)
+		msec.append("0");
+
+	msec.append(to_string(ms.count()));
+	st.append(".");
+	st.append(msec);
+
 	if (debug)
 		st.append(" DEBUG]: ");
 	else
 		st.append("]: ");
 
-	st.append(in);
-
-	st.append("\n");
-	
-	cout << st;
-
-	if (toLog)
-	{
-		ShortPrintToLog(st);
-	}
-
-
 	delete(now_tm);
 	now_tm = nullptr;
-}
 
-void ScLogger::PrintToLog(string in, bool debug, bool toConsole)
-{
-
-}
-
-void ScLogger::ShortPrintToConsole(string in)
-{
-	cout << in;
-}
-
-void ScLogger::ShortPrintToLog(string in)
-{
-
+	return st;
 }

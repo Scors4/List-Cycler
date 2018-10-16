@@ -115,10 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CyclerFileEditor.h" />
     <ClInclude Include="ListCycler.h" />
     <ClInclude Include="ScLogger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CyclerFileEditor.cpp" />
     <ClCompile Include="ListCycler.cpp" />
     <ClCompile Include="ScLogger.cpp" />
   </ItemGroup>

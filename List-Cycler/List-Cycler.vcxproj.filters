@@ -21,12 +21,18 @@
     <ClInclude Include="ScLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CyclerFileEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ListCycler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CyclerFileEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,9 +16,8 @@ ListCycler::~ListCycler()
 
 void ListCycler::init()
 {
-	logger->PrintToConsole("This is a test", false, false);
-	logger->PrintToConsole("This is a debug test", true, false);
-	std::cin.get();
+
+	cin.get();
 }
 
 int main()

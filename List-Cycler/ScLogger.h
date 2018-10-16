@@ -14,10 +14,14 @@ public:
 	void PrintToConsole(string in, bool debug, bool toLog);
 	void PrintToLog(string in, bool debug, bool toConsole);
 
+	void execFail(string in, int code);
+
 private:
 
 	fstream log;
 
 	void ShortPrintToConsole(string in);
 	void ShortPrintToLog(string in);
+
+	string BuildTimestamp(bool debug);
 };
