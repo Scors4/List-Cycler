@@ -1,7 +1,12 @@
 #pragma once
+#ifndef CYCLER_FILE_EDITOR_H
+#define CYCLER_FILE_EDITOR_H
 
 #include <string>
 #include <fstream>
+#include <sys/stat.h>
+#include "ListCycler.h"
+#include "ScLogger.h"
 
 using namespace std;
 
@@ -11,11 +16,14 @@ public:
 	CyclerFileEditor();
 	~CyclerFileEditor();
 
-	void WriteToFile();
-	void ReadFromFile(string filename);
+	static void WriteToFile(string filename, List &out);
+	static void ReadFromFile(string filename);
 
 private:
 	
-	fstream listFile;
+	static fstream listFile;
+
+	static bool FileExists(const string filename);
 };
 
+#endif

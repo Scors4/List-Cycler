@@ -1,4 +1,7 @@
 #pragma once
+#ifndef SC_LOGGER_H
+#define SC_LOGGER_H
+
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -11,17 +14,21 @@ public:
 	ScLogger();
 	~ScLogger();
 
-	void PrintToConsole(string in, bool debug, bool toLog);
-	void PrintToLog(string in, bool debug, bool toConsole);
+	static void OpenLog();
+	static void CloseLog();
 
-	void execFail(string in, int code);
+	static void PrintToConsole(string in, bool debug, bool toLog);
+	static void PrintToLog(string in, bool debug, bool toConsole);
+
+	static void execFail(string in, int code);
 
 private:
+	static fstream* log;
 
-	fstream log;
+	static void ShortPrintToConsole(string in);
+	static void ShortPrintToLog(string in);
 
-	void ShortPrintToConsole(string in);
-	void ShortPrintToLog(string in);
-
-	string BuildTimestamp(bool debug);
+	static string BuildTimestamp(bool debug);
 };
+
+#endif

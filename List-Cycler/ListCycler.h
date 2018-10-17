@@ -1,25 +1,28 @@
 #pragma once
+#ifndef LIST_CYCLER_H
+#define LIST_CYCLER_H
+
 #include "ScLogger.h"
 
-template <int N>
+
 struct List {
-	int size = N;
+	int size;
 	int index;
-	string elements[N];
+	string* elements;
 };
 
 class ListCycler
 {
 public:
 
-	ScLogger* logger;
+	//ScLogger* logger;
 
 	ListCycler();
 	~ListCycler();
 
 	void init();
+	void LoadList();
+	void BuildNewList();
 };
 
-ListCycler* cycler;
-
-int main();
+#endif

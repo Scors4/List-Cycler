@@ -6,13 +6,25 @@ using namespace std::chrono;
 
 ScLogger::ScLogger()
 {
-	log.open("ScListCycler.log", fstream::in | fstream::out | fstream::app);
+	//log->open("ScListCycler.log", fstream::in | fstream::out | fstream::app);
 }
 
 
 ScLogger::~ScLogger()
 {
-	log.close();
+	//log->close();
+}
+
+fstream* ScLogger::log = new fstream;
+
+void ScLogger::OpenLog()
+{
+	log->open("ScListCycler.log", fstream::in | fstream::out | fstream::app);
+}
+
+void ScLogger::CloseLog()
+{
+	log->close();
 }
 
 void ScLogger::PrintToConsole(string in, bool debug, bool toLog)
@@ -43,7 +55,7 @@ void ScLogger::PrintToLog(string in, bool debug, bool toConsole)
 	
 	st.append("\n");
 	
-	log << st;
+	*log << st;
 
 	if (toConsole)
 	{
@@ -78,7 +90,7 @@ void ScLogger::ShortPrintToConsole(string in)
 
 void ScLogger::ShortPrintToLog(string in)
 {
-	log << in;
+	*log << in;
 }
 
 string ScLogger::BuildTimestamp(bool debug)
