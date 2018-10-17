@@ -17,7 +17,9 @@ public:
 	~CyclerFileEditor();
 
 	static void WriteToFile(string filename, List &out);
-	static void ReadFromFile(string filename);
+	static List ReadFromFile(string filename);
+
+	static void ListExistingLists();
 
 private:
 	

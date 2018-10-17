@@ -7,7 +7,7 @@
 
 struct List {
 	int size;
-	int index;
+	int index = 0;
 	string* elements;
 };
 
@@ -17,12 +17,14 @@ public:
 
 	//ScLogger* logger;
 
+	List scList;
+
 	ListCycler();
 	~ListCycler();
 
 	void init();
 	void LoadList();
-	void BuildNewList();
+	List BuildNewList();
 };
 
 #endif
