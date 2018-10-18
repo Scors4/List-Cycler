@@ -8,6 +8,9 @@
 #define KEY_DOWN 80
 #define KEY_SPACE 32
 #define KEY_P 112
+#define KEY_F 102
+#define KEY_H 104
+#define KEY_A 97
 
 
 ListCycler::ListCycler()
@@ -135,7 +138,7 @@ void ListCycler::CycleList()
 	bool br = false;
 	int c = 0;
 
-	cout << "Cycling list " << scList.name << ".  Press 'P' to find a pattern.  Press Space to end cycle." << endl;
+	cout << "Cycling list " << scList.name << ".  Press 'H' to list keyboard shortcuts.  Press Space to end cycle." << endl;
 
 	do {
 		cout << "Element " << (scList.index + 1) << ": " << scList.elements[scList.index] << endl;
@@ -156,10 +159,21 @@ void ListCycler::CycleList()
 			case KEY_P:
 				PatternHunt();
 				break;
+			case KEY_F:
+				AmmendList();
+				break;
+			case KEY_H:
+				PrintCommands();
+				break;
+			case KEY_A:
+				AppendList();
+				break;
 			case 0:
 				break;
+			case 224:
+				continue;
 			default:
-				//cout << c << endl;
+				cout << c << endl;
 				continue;
 			}
 
@@ -292,4 +306,65 @@ string * ListCycler::BuildLargerArray(string * in, int currentSize)
 	}
 
 	return newArr;
+}
+
+void ListCycler::PrintCommands()
+{
+	cout << "'P' -> Seek pattern." << endl <<
+		"'F' -> Fix current entry." << endl <<
+		"'A' -> Append current list." << endl;
+}
+
+void ListCycler::AmmendList()
+{
+	cout << "Ammending index " << scList.index + 1 << ": ";
+	string in;
+	getline(cin, in);
+	scList.elements[scList.index] = in;
+	cout << "New entry for index " << scList.index + 1 << ": " << scList.elements[scList.index] << endl;
+}
+
+void ListCycler::AppendList()
+{
+	ScLogger::PrintToLog("Appending list " + scList.name, true, false);
+	cout << "Appending " << scList.name << ": " << endl;
+	int index = scList.size;
+	int size = scList.size + (10 - (scList.size % 10));
+	string * entries = new string[size];
+
+	for (int i = 0; i < scList.size; i++)
+	{
+		entries[i] = scList.elements[i];
+	}
+
+	do
+	{
+		string in;
+		cout << "Please enter entry " << (index + 1) << " (type -end- to end): ";
+		getline(cin, in);
+		if (in._Equal("-end-"))
+		{
+			break;
+		}
+
+		entries[index] = in;
+		index++;
+		if ((index % 10) == 0)
+		{
+			entries = BuildLargerArray(entries, index);
+		}
+
+	} while (true);
+
+	scList.updateElements(entries, index);
+	entries = nullptr;
+
+	ScLogger::PrintToLog("End result of appending " + scList.name + ":", true, false);
+
+	for (int i = 0; i < scList.size; i++)
+	{
+		ScLogger::PrintToLog("Entry " + to_string(i) + ": " + scList.elements[i], true, false);
+	}
+
+	CyclerFileEditor::WriteToFile(scList);
 }

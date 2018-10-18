@@ -23,8 +23,7 @@ struct List {
 	void updateElements(string* in, int sizeIn)
 	{
 		size = sizeIn;
-		if(elements != nullptr)
-			delete elements;
+		elements = nullptr;
 		elements = in;
 	}
 };
@@ -48,6 +47,11 @@ public:
 	void FindPotentials(bool* inArr, string* inMatch, int matchSize);
 
 	string* BuildLargerArray(string* in, int currentSize);
+
+private:
+	void PrintCommands();
+	void AmmendList();
+	void AppendList();
 };
 
 #endif
