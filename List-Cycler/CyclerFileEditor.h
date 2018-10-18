@@ -16,8 +16,9 @@ public:
 	CyclerFileEditor();
 	~CyclerFileEditor();
 
-	static void WriteToFile(string filename, List &out);
+	static void WriteToFile(List &out);
 	static List ReadFromFile(string filename);
+	static void ExitWrite(List &out);
 
 	static void ListExistingLists();
 
@@ -26,6 +27,7 @@ private:
 	static fstream listFile;
 
 	static bool FileExists(const string filename);
+	static void BuildFilename(string* filename);
 };
 
 #endif

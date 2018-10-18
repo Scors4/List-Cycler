@@ -12,9 +12,11 @@ CyclerFileEditor::~CyclerFileEditor()
 {
 }
 
-void CyclerFileEditor::WriteToFile(string filename, List &out)
+void CyclerFileEditor::WriteToFile(List &out)
 {
 	fstream outFile;
+	string filename = out.name;
+	BuildFilename(&filename);
 	if (FileExists(filename)) {
 		cout << "The file " << filename << " already exists.  Would you like to override? (Y/n)";
 		string in;
@@ -32,6 +34,7 @@ void CyclerFileEditor::WriteToFile(string filename, List &out)
 
 	ScLogger::PrintToLog("Opened file: " + filename + " successfully.", true, true);
 
+	writeOut << out.name << endl;
 	writeOut << out.size << endl;
 	writeOut << out.index << endl;
 
@@ -39,12 +42,35 @@ void CyclerFileEditor::WriteToFile(string filename, List &out)
 	{
 		writeOut << out.elements[i] << endl;
 	}
+
+	writeOut.close();
 }
 
-List CyclerFileEditor::ReadFromFile(string filename)
+void CyclerFileEditor::ExitWrite(List &out)
 {
-	ScLogger::PrintToLog("Filename to open: " + filename, true, false);
+	fstream outFile;
+	string filename = out.name;
+	BuildFilename(&filename);
+	outFile.open(filename, fstream::out);
+
+	outFile << out.name << endl;
+	outFile << out.size << endl;
+	outFile << out.index << endl;
+
+	for (int i = 0; i < out.size; i++)
+	{
+		outFile << out.elements[i] << endl;
+	}
+
+	outFile.close();
+}
+
+List CyclerFileEditor::ReadFromFile(string fIn)
+{
+	string filename = fIn;
+	ScLogger::PrintToLog("List to open: " + filename, true, false);
 	List tList;
+	BuildFilename(&filename);
 
 	if (!FileExists(filename))
 	{
@@ -55,6 +81,7 @@ List CyclerFileEditor::ReadFromFile(string filename)
 	fstream readIn;
 	readIn.open(filename, fstream::in);
 
+	readIn >> tList.name;
 	readIn >> tList.size;
 	readIn >> tList.index;
 
@@ -82,6 +109,14 @@ bool CyclerFileEditor::FileExists(const string filename)
 		return true;
 	}
 	return false;
+}
+
+void CyclerFileEditor::BuildFilename(string * filename)
+{
+	string temp = "lists/";
+	temp.append(*filename);
+	temp.append(".scl");
+	*filename = temp;
 }
 
 void CyclerFileEditor::ListExistingLists()
