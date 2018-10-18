@@ -61,8 +61,6 @@ void ListCycler::LoadList()
 				continue;
 			}
 
-
-
 			break;
 		}
 	}
@@ -293,6 +291,5 @@ string * ListCycler::BuildLargerArray(string * in, int currentSize)
 		newArr[i] = in[i];
 	}
 
-	delete in;
 	return newArr;
 }
