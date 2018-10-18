@@ -6,9 +6,26 @@
 
 
 struct List {
-	int size;
+	int size = -1;
 	int index = 0;
-	string* elements;
+	string* elements = nullptr;
+
+	~List()
+	{
+		if (elements != nullptr)
+		{
+			//delete elements;
+			elements = nullptr;
+		}
+	}
+
+	void updateElements(string* in, int sizeIn)
+	{
+		size = sizeIn;
+		if(elements != nullptr)
+			delete elements;
+		elements = in;
+	}
 };
 
 class ListCycler
@@ -25,6 +42,9 @@ public:
 	void init();
 	void LoadList();
 	List BuildNewList();
+	void CycleList();
+
+	string* BuildLargerArray(string* in, int currentSize);
 };
 
 #endif
