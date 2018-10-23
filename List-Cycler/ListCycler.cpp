@@ -173,7 +173,7 @@ void ListCycler::CycleList()
 			case 224:
 				continue;
 			default:
-				cout << c << endl;
+				//cout << c << endl;
 				continue;
 			}
 
