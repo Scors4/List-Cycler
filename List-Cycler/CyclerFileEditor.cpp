@@ -12,6 +12,7 @@ CyclerFileEditor::~CyclerFileEditor()
 {
 }
 
+/*Opens the out file for the loaded List structure.  The filename comes off the List.name property.*/
 void CyclerFileEditor::WriteToFile(List &out)
 {
 	fstream outFile;
@@ -46,6 +47,8 @@ void CyclerFileEditor::WriteToFile(List &out)
 	writeOut.close();
 }
 
+/*Quick version of WriteToFile(), no confirmation taken so the list index is updated between uses.
+--Should be adapted to change only one line.*/
 void CyclerFileEditor::ExitWrite(List &out)
 {
 	fstream outFile;
@@ -65,6 +68,8 @@ void CyclerFileEditor::ExitWrite(List &out)
 	outFile.close();
 }
 
+/*Opens and reads a list file based on the fIn string (filename In).
+Pass only the list name, Filename is built in-function.*/
 List CyclerFileEditor::ReadFromFile(string fIn)
 {
 	string filename = fIn;
@@ -99,6 +104,7 @@ List CyclerFileEditor::ReadFromFile(string fIn)
 	return tList;
 }
 
+/*Checks if a given file exists.  Thanks to Rico on stack overflow for the code sample!*/
 //From Rico at 
 // https://stackoverflow.com/questions/4316442/stdofstream-check-if-file-exists-before-writing
 bool CyclerFileEditor::FileExists(const string filename)
@@ -111,6 +117,8 @@ bool CyclerFileEditor::FileExists(const string filename)
 	return false;
 }
 
+/*Builds a filepath given the name of the list.
+The original filename in is modified, so no new elements are returned.*/
 void CyclerFileEditor::BuildFilename(string * filename)
 {
 	string temp = "lists/";
@@ -119,6 +127,8 @@ void CyclerFileEditor::BuildFilename(string * filename)
 	*filename = temp;
 }
 
+/*Empty function.  Needs to be implemented, but requires more research into how C++ handles file structures.
+Do NOT want to use 3rd party libraries with this!*/
 void CyclerFileEditor::ListExistingLists()
 {
 	

@@ -3,6 +3,7 @@
 
 ListCycler* cycler;
 
+/*Main function: Access point.*/
 int main()
 {
 	cycler = new ListCycler();

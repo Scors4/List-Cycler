@@ -12,19 +12,23 @@
 #define KEY_H 104
 #define KEY_A 97
 
-
+/*Was used to intiate the ScLogger before it was made a static class.
+*/
 ListCycler::ListCycler()
 {
 	//logger = new ScLogger();
 }
 
-
+/*Cleaned the logger from memory at the end of the program.
+*/
 ListCycler::~ListCycler()
 {
 	//delete(logger);
 	//logger = nullptr;
 }
 
+/*Initialization call to allow ScLogger to be used as well as being a launching point
+for this specific class*/
 void ListCycler::init()
 {
 	ScLogger::OpenLog();
@@ -38,6 +42,8 @@ void ListCycler::init()
 	ScLogger::CloseLog();
 }
 
+/*Loads a list by asking the user if they want to load an existing list or make a new one.
+"list" and "List" are invalid arguments.*/
 void ListCycler::LoadList()
 {
 	cout << "Would you like to open an existing list? (Y/n): ";
@@ -73,6 +79,7 @@ void ListCycler::LoadList()
 	}
 }
 
+/*Prompts the user to input elements for the list until the user inputs the command "-end-"*/
 List ListCycler::BuildNewList()
 {
 	int size = 0;
@@ -130,6 +137,11 @@ List ListCycler::BuildNewList()
 	return tList;
 }
 
+/*Meat and Potatoes
+Responds to up and down arrow keys to cycle through list elements.  Also takes other keystrokes as follows:
+A - Append the list: adding new elements.
+F - Mend a list item: Allows for corrections if a typo is found later.
+P - Pattern Seek: Starts the pattern recognition portion to allow for pattern-based seek.*/
 void ListCycler::CycleList()
 {
 	if (scList.size == -1)
@@ -196,6 +208,8 @@ void ListCycler::CycleList()
 	while (true);
 }
 
+/*Looks for a pattern given by the user in the currently loaded list.
+Also provides all possible matches as the pattern is input by the user.*/
 void ListCycler::PatternHunt()
 {
 	ScLogger::PrintToLog("Pattern hunter has been enabled.", true, false);
@@ -266,6 +280,8 @@ void ListCycler::PatternHunt()
 	ScLogger::PrintToLog("Pattern hunter has ended.", true, false);
 }
 
+/*Actually looks for the inMatch array in the loaded list.  Modifies the boolean array inArr so PatternHunt is able to 
+print out the found possibles and bring the index to the single match if found.*/
 void ListCycler::FindPotentials(bool* inArr, string* inMatch, int matchSize)
 {
 	ScLogger::PrintToLog("Seeking potentials now", true, false);
@@ -296,6 +312,8 @@ void ListCycler::FindPotentials(bool* inArr, string* inMatch, int matchSize)
 	ScLogger::PrintToLog("Potential seeking ended.", true, false);
 }
 
+/*Increases the in array size by 10.
+Copies the old array into the new, deletes the old, returns the new. Does not return new size.*/
 string * ListCycler::BuildLargerArray(string * in, int currentSize)
 {
 	string* newArr = new string[currentSize + 10];
@@ -308,6 +326,7 @@ string * ListCycler::BuildLargerArray(string * in, int currentSize)
 	return newArr;
 }
 
+/*Prints commands, made a function to simplify adding further commands and definitions.*/
 void ListCycler::PrintCommands()
 {
 	cout << "'P' -> Seek pattern." << endl <<
@@ -315,6 +334,7 @@ void ListCycler::PrintCommands()
 		"'A' -> Append current list." << endl;
 }
 
+/*Ammends a single element of the current array at the current index.  User inputs the new data for that element.*/
 void ListCycler::AmmendList()
 {
 	cout << "Ammending index " << scList.index + 1 << ": ";
@@ -324,6 +344,8 @@ void ListCycler::AmmendList()
 	cout << "New entry for index " << scList.index + 1 << ": " << scList.elements[scList.index] << endl;
 }
 
+/*Appends the currently loaded list.
+This loads a new array to the next multiple of 10 so the algorithm doesn't need to take into account size % 10*/
 void ListCycler::AppendList()
 {
 	ScLogger::PrintToLog("Appending list " + scList.name, true, false);
